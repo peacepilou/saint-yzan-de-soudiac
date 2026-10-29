@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #121513;
+  --color-ink-hover: #2e3531;
+  --color-surface: #f4f5f2;
+  --color-surface-hover: #f8f9f6;
+  --color-line: #e6e8e4;
+  --color-line-strong: #d5d9d3;
+  --color-line-soft: #eef0ec;
+  --color-text: #3f4642;
+  --color-muted: #5b625e;
+  --color-accent: #1f4d3a;
+  --color-accent-hover: #163a2b;
+  --color-accent-soft: #e8efea;
+  --color-accent-deep: #2e6650;
+  --color-accent-rule: #4f7563;
+  --color-white-hover: #e3ece6;
+  --color-quick-hover: #f6f7f4;
+  --color-warning-bg: #fbf1e6;
+  --color-warning: #8a4b12;
+  --color-warning-icon: #c2711f;
+  --color-health: #9b3b5a;
+  --color-health-bg: #f6e7ec;
+  --color-on-dark: #c9cfcb;
+  --color-on-photo: #e6eae7;
+  --color-on-accent: #d4e2d9;
+  --color-on-accent-muted: #b7cdbf;
+  --color-eyebrow-dark: #9fc2ad;
+  --color-eyebrow-photo: #cfe0d5;
+  --color-footer-muted: #9aa19c;
+  --color-footer-rule: #2b302d;
+  --color-portrait: #dde5df;
+  --color-portrait-warm: #e9e4d8;
+  --color-portrait-neutral: #eceeea;
+  --color-focus: #7fd39b;
+
+  --font-display: var(--font-schibsted), system-ui, sans-serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+
+  --breakpoint-nav: 75rem;
+
+  --radius-card: 24px;
+  --radius-media: 20px;
+  --radius-field: 12px;
+
+  --shadow-quick: 0 18px 50px rgb(18 21 19 / 0.12);
+  --shadow-menu: 0 24px 60px rgb(0 0 0 / 0.25);
+  --shadow-search: 0 10px 30px rgb(18 21 19 / 0.18);
+
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@layer base {
+  html {
+    color: var(--color-ink);
+    background: #fff;
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+  body {
+    font-size: 16px;
+    line-height: 1.55;
+    background: #fff;
+  }
+  @media (width >= 48rem) {
+    body {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+  }
+  a {
+    color: var(--color-accent);
+  }
+  a,
+  button {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.2s ease,
+      filter 0.2s ease,
+      text-decoration-color 0.2s ease;
+  }
+  :where(a, button, input, select, textarea, summary):focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+  [id] {
+    scroll-margin-top: 24px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}
+
+/* Survols repris des classes hv-* des maquettes : couleur, fond ou opacité uniquement. */
+@utility link-hover {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+@utility hover-media {
+  & img {
+    transition: opacity 0.25s ease;
+  }
+  &:hover img {
+    opacity: 0.85;
+  }
+}
