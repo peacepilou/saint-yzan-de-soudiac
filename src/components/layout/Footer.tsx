@@ -43,6 +43,9 @@ export function Footer() {
                   {l.label}
                 </SmartLink>
               ))}
+              <SmartLink href="/admin/connexion" className={footLink}>
+                Espace agents
+              </SmartLink>
             </nav>
             <p className="text-footer-muted">
               Site conçu et réalisé par{" "}

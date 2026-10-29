@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Schibsted_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import { SkipLink } from "@/components/layout/SkipLink";
 import "./globals.css";
 
-const schibsted = Schibsted_Grotesk({
+// Polices auto-hébergées (variables, sous-ensemble latin, licence SIL OFL) : aucun appel à Google au build ni au chargement.
+const schibsted = localFont({
+  src: "./fonts/schibsted-grotesk-latin.woff2",
   variable: "--font-schibsted",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "400 900",
   display: "swap",
 });
 
-const hanken = Hanken_Grotesk({
+const hanken = localFont({
+  src: "./fonts/hanken-grotesk-latin.woff2",
   variable: "--font-hanken",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "100 900",
   display: "swap",
 });
 

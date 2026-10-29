@@ -35,12 +35,15 @@ export function SuccessPanel({
   successRef,
   onReset,
   resetLabel,
+  adminHref,
 }: {
   title: string;
   text: string;
   successRef: RefObject<HTMLHeadingElement | null>;
   onReset: () => void;
   resetLabel: string;
+  /** Module de l'administration où la demande apparaît (démo). */
+  adminHref: string;
 }) {
   return (
     <div role="status" className="flex flex-col items-start gap-4 rounded-[28px] bg-accent-soft p-6 md:p-10">
@@ -48,7 +51,13 @@ export function SuccessPanel({
         {title}
       </h3>
       <p className="text-text">{text}</p>
-      <p className="text-[14px] text-muted">Prototype : aucune donnée n&apos;a été transmise.</p>
+      <p className="text-[14px] text-muted">
+        Démo : la demande est enregistrée dans ce navigateur et visible dans{" "}
+        <Link href={adminHref} className="font-semibold link-hover">
+          l&apos;espace d&apos;administration
+        </Link>
+        .
+      </p>
       <Button variant="outline" size={48} onClick={onReset}>
         {resetLabel}
       </Button>

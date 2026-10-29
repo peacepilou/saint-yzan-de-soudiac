@@ -2,11 +2,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import { news } from "@/data/news";
 import { procedures } from "@/data/procedures";
 import { rubriques } from "@/data/rubriques";
+import { resources } from "@/lib/admin/resources";
 
 const known: Record<string, Set<string>> = {
   actualites: new Set(news.map((n) => n.slug)),
   demarches: new Set([...procedures.map((p) => p.slug), "signaler-un-probleme"]),
   "vivre-ici": new Set(rubriques.map((r) => r.slug)),
+  admin: new Set([...resources.map((r) => r.slug), "connexion", "bandeau", "reglages"]),
 };
 
 /**
@@ -22,5 +24,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/actualites/:slug", "/demarches/:slug", "/vivre-ici/:slug"],
+  matcher: ["/actualites/:slug", "/demarches/:slug", "/vivre-ici/:slug", "/admin/:slug"],
 };

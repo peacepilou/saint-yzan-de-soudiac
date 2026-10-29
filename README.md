@@ -11,22 +11,40 @@ pnpm build && pnpm start
 pnpm lint
 ```
 
-Stack : Next.js 16 (App Router, Cache Components), React 19, TypeScript strict, Tailwind CSS v4 (thème `@theme` dans `src/app/globals.css`), polices Schibsted Grotesk et Hanken Grotesk servies par le site (`next/font`), `lucide-react`.
+Stack : Next.js 16 (App Router, Cache Components), React 19, TypeScript strict, Tailwind CSS v4 (thème `@theme` dans `src/app/globals.css`), polices Schibsted Grotesk et Hanken Grotesk auto-hébergées (`next/font/local`, fichiers woff2 dans `src/app/fonts/`, licence SIL OFL : aucun appel à Google au build ni au chargement), `lucide-react`.
+
+## Docker / Dokploy
+
+```bash
+docker build -t saint-yzan-prototype . && docker run -p 3000:3000 saint-yzan-prototype
+```
+
+Image Node 26 (alpine), sortie `standalone` de Next, port **3000**, utilisateur non-root.
+
+## Espace d'administration (démo)
+
+`/admin` (lien « Espace agents » dans le pied de page). Connexion factice : identifiants préremplis.
+
+- Tableau de bord, Actualités, Événements, Bandeau « À savoir », Élus, Documents, Démarches, Salles, Signalements, Réservations, Messages, Réglages.
+- Données mockées enregistrées dans le navigateur (`localStorage`), bouton « Réinitialiser la démo » dans Réglages.
+- Les formulaires publics (signalement, réservation, contact) alimentent l'admin ; le bandeau « À savoir » de l'accueil se règle depuis l'admin. Les autres pages publiques restent sur les données de `src/data/`.
+- Modules décrits dans `src/lib/admin/resources.ts` (champs, colonnes, statuts) ; l'admin est exclu de l'indexation.
 
 ## Structure
 
 ```
 src/
 ├─ app/                 une route par page (voir « Pages »), sitemap.xml, robots.txt
-├─ proxy.ts             404 réel pour les slugs inconnus (actualités, démarches, rubriques)
+├─ proxy.ts             404 réel pour les slugs inconnus (actualités, démarches, rubriques, admin)
 ├─ components/
 │  ├─ layout/           Header (overlay / solid) + méga-menu sur toutes les pages, SearchToggle, MobileMenu, Footer commun, Logo, SkipLink, SiteFrame
 │  ├─ ui/               Button, Container, Eyebrow, SectionHeader, Breadcrumb, Tag, FilterChips, SubNav, FormField, LinkArrow (lucide), icons
 │  ├─ sections/         Hero, QuickAccess, AlertBanner, NewsCard/Grid, PhotoBand, Stats, AgendaList, PhotoTiles, ContactSplit,
 │  │                    Timeline, DocList, ProcedureList, OfficialCard, MayorBlock, ShareButtons, filtres (…Browser), etc.
-│  └─ forms/            ReportForm, BookingForm, ContactForm, validation et succès simulé
+│  ├─ forms/            ReportForm, BookingForm, ContactForm, validation et succès simulé
+│  └─ admin/            AdminShell, Dashboard, ResourceTable, RecordDialog, AlertEditor, SettingsEditor, LoginForm
 ├─ data/                site, navigation, news, events, procedures, documents, officials, rubriques, rooms, history, photos, sitemap
-└─ lib/                 types, utils (cn, formatDate, isOpenToday), styles (échelle typographique), search
+└─ lib/                 types, utils (cn, isOpenToday), styles (échelle typographique), search, admin/ (store, ressources, données de démo)
 public/images/          13 photos WebP · public/documents/ : PDF « document à venir »
 ```
 

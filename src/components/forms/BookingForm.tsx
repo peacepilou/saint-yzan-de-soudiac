@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { fieldClass, FormField, RequiredNote, textareaClass } from "@/components/ui/FormField";
 import { rooms } from "@/data/rooms";
+import { addRecord } from "@/lib/admin/store";
 import { ErrorSummary, RgpdNotice, SuccessPanel } from "./FormParts";
 import { email, required, useSimulatedForm } from "./useSimulatedForm";
 
@@ -19,7 +20,19 @@ const rules = {
 
 /** Demande de réservation de salle, succès simulé. */
 export function BookingForm() {
-  const { errors, sent, summary, successRef, onSubmit, reset } = useSimulatedForm(rules);
+  const { errors, sent, summary, successRef, onSubmit, reset } = useSimulatedForm(rules, (data) =>
+    addRecord("bookings", {
+      room: String(data.get("salle")),
+      date: String(data.get("date")),
+      start: String(data.get("debut")),
+      end: String(data.get("fin")),
+      purpose: String(data.get("objet")),
+      name: String(data.get("nom")),
+      email: String(data.get("email")),
+      phone: String(data.get("tel")),
+      status: "En attente",
+    }),
+  );
 
   if (sent) {
     return (
@@ -29,6 +42,7 @@ export function BookingForm() {
         successRef={successRef}
         onReset={reset}
         resetLabel="Faire une autre demande"
+        adminHref="/admin/reservations"
       />
     );
   }
