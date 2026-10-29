@@ -11,10 +11,11 @@ export const email = (optional: boolean) => (value: string) => {
 };
 
 /**
- * Validation côté client et succès simulé (aucune donnée n'est envoyée).
+ * Validation côté client et succès simulé : aucune donnée n'est envoyée à un serveur,
+ * `onSuccess` permet d'enregistrer la demande dans la démo d'administration (navigateur).
  * Le focus va au premier champ en erreur, puis au message de succès.
  */
-export function useSimulatedForm(rules: Rules) {
+export function useSimulatedForm(rules: Rules, onSuccess?: (data: FormData) => void) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
   const successRef = useRef<HTMLHeadingElement>(null);
@@ -43,6 +44,7 @@ export function useSimulatedForm(rules: Rules) {
       (form.elements.namedItem(first) as HTMLElement | null)?.focus();
       return;
     }
+    onSuccess?.(data);
     setSent(true);
     requestAnimationFrame(() => successRef.current?.focus());
   };

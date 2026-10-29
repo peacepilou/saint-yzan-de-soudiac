@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { fieldClass, FormField, RequiredNote, textareaClass } from "@/components/ui/FormField";
+import { addRecord } from "@/lib/admin/store";
 import { ErrorSummary, RgpdNotice, SuccessPanel } from "./FormParts";
 import { email, required, useSimulatedForm } from "./useSimulatedForm";
 
@@ -14,7 +15,15 @@ const rules = {
 
 /** Formulaire de contact, succès simulé. */
 export function ContactForm() {
-  const { errors, sent, summary, successRef, onSubmit, reset } = useSimulatedForm(rules);
+  const { errors, sent, summary, successRef, onSubmit, reset } = useSimulatedForm(rules, (data) =>
+    addRecord("messages", {
+      name: String(data.get("nom")),
+      email: String(data.get("email")),
+      subject: String(data.get("objet")),
+      message: String(data.get("message")),
+      status: "Nouveau",
+    }),
+  );
 
   if (sent) {
     return (
@@ -24,6 +33,7 @@ export function ContactForm() {
         successRef={successRef}
         onReset={reset}
         resetLabel="Écrire un autre message"
+        adminHref="/admin/messages"
       />
     );
   }

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { fieldClass, FormField, RequiredNote, textareaClass } from "@/components/ui/FormField";
+import { addRecord } from "@/lib/admin/store";
 import { ErrorSummary, RgpdNotice, SuccessPanel } from "./FormParts";
 import { email, required, useSimulatedForm } from "./useSimulatedForm";
 
@@ -14,7 +15,17 @@ const rules = {
 
 /** Formulaire de signalement (maquette Démarches), succès simulé. */
 export function ReportForm() {
-  const { errors, sent, summary, successRef, onSubmit, reset } = useSimulatedForm(rules);
+  const { errors, sent, summary, successRef, onSubmit, reset } = useSimulatedForm(rules, (data) =>
+    addRecord("reports", {
+      type: String(data.get("type")),
+      place: String(data.get("lieu")),
+      description: String(data.get("desc")),
+      email: String(data.get("mail") ?? ""),
+      status: "Nouveau",
+      assignee: "",
+      notes: "",
+    }),
+  );
 
   if (sent) {
     return (
@@ -25,6 +36,7 @@ export function ReportForm() {
           successRef={successRef}
           onReset={reset}
           resetLabel="Faire un autre signalement"
+          adminHref="/admin/signalements"
         />
       </div>
     );
